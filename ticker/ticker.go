@@ -3,8 +3,8 @@
 package ticker
 
 import (
-	"time"
 	"context"
+	"time"
 )
 
 // ChangePred takes two timestampts and returns whether they are
@@ -21,7 +21,7 @@ func HourChangePred(prev, curr time.Time) bool {
 }
 
 func TenSecondChangePred(prev time.Time, curr time.Time) bool {
-	lhs, _    := tensCoeff(prev.Second())
+	lhs, _ := tensCoeff(prev.Second())
 	rhs, rhs1 := tensCoeff(curr.Second())
 	return rhs1 == 0 && (lhs != rhs)
 }
@@ -31,38 +31,39 @@ func OneSecondChangePred(prev, curr time.Time) bool {
 }
 
 type Ticker struct {
-	c chan time.Time
-	pred ChangePred
+	c            chan time.Time
+	pred         ChangePred
+	pollInterval time.Duration
 }
 
-func NewTicker(pred ChangePred) *Ticker {
+func NewTicker(pred ChangePred, pollInterval time.Duration) *Ticker {
 	ch := make(chan time.Time)
-	return &Ticker{c: ch, pred: pred}
+	return &Ticker{c: ch, pred: pred, pollInterval: pollInterval}
 }
 
-func (t * Ticker) NotifyChannel() <-chan time.Time {
+func (t *Ticker) NotifyChannel() <-chan time.Time {
 	return t.c
 }
 
-func (t * Ticker) RunWithContext(ctx context.Context) {
+func (t *Ticker) RunWithContext(ctx context.Context) {
 	prev := time.Now()
 	// internal ticker which we translate
-	it := time.NewTicker(250 * time.Millisecond)
+	it := time.NewTicker(t.pollInterval)
 loop:
 	for {
 		select {
 		case curr := <-it.C:
-			if ! t.pred(prev, curr) {
+			if !t.pred(prev, curr) {
 				continue
 			}
 			t.c <- curr
 			prev = curr
-		case <-ctx.Done(): 
+		case <-ctx.Done():
 			break loop
 		}
 	}
 }
 
-func (t * Ticker) Run(){
+func (t *Ticker) Run() {
 	t.RunWithContext(context.Background())
 }
