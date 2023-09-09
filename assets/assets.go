@@ -1,6 +1,5 @@
 package casio_f91w_assets
 
-
 import (
 	"embed"
 )

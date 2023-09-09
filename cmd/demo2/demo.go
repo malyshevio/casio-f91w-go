@@ -162,7 +162,7 @@ func main() {
 		pred = ticker.TenSecondChangePred
 	}
 
-	tickr := ticker.NewTicker(pred, 250 * time.Millisecond)
+	tickr := ticker.NewTicker(pred, 250*time.Millisecond)
 
 	ctx, _ := context.WithTimeout(context.Background(), time.Hour)
 

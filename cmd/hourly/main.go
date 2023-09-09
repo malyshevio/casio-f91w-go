@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/faiface/beep"
-	"github.com/faiface/beep/wav"
 	"github.com/faiface/beep/speaker"
+	"github.com/faiface/beep/wav"
 
 	//"github.com/MawKKe/casio-f91w-go/speaker"
 	assets "github.com/MawKKe/casio-f91w-go/assets"
