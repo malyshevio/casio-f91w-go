@@ -164,7 +164,8 @@ func main() {
 
 	tickr := ticker.NewTicker(pred, 250*time.Millisecond)
 
-	ctx, _ := context.WithTimeout(context.Background(), time.Hour)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Hour)
+	defer cancel()
 
 	log.Println("launch")
 
