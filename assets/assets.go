@@ -6,5 +6,6 @@ import (
 
 //go:embed beepNoTrailingDelay.wav
 //go:embed beepBeepNoTrailingDelay.wav
+//go:embed beepBeepNoTrailingDelay.pcm
 //go:embed beepBeepWithTrailingDelay.wav
 var Assets embed.FS
