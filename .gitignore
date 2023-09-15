@@ -25,3 +25,6 @@ crap/
 out/
 assets/old
 research/
+
+# product from 'go build .'
+casio-f91w-go
