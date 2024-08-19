@@ -31,6 +31,18 @@ func FloorToTensOfSeconds(t time.Time) time.Time {
 	)
 }
 
+func FloorToOneMinute(t time.Time) time.Time {
+	y, m, d := t.Date()
+	hh, mm, ss := t.Clock()
+	new_ss := (ss - (ss % 60))
+	return time.Date(
+		y, m, d,
+		hh, mm, new_ss,
+		0,
+		t.Location(),
+	)
+}
+
 func FloortoMinute(t time.Time) time.Time {
 	y, m, d := t.Date()
 	hh, mm, _ := t.Clock()

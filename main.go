@@ -26,9 +26,10 @@ func clamp(lo, value, hi float64) float64 {
 }
 
 func main() {
-	var debug bool
+	var debug, whiteRose bool
 	var volume float64
 	flag.BoolVar(&debug, "debug", false, "debug mode - beep every second")
+	flag.BoolVar(&whiteRose, "whiterose", false, "whiterose mode - beep every minute")
 	flag.Float64Var(&volume, "volume", 1.0, "set volume (range 0.0 ... 1.0)")
 	flag.Parse()
 
@@ -80,6 +81,10 @@ func main() {
 	if debug {
 		log.Println("Enabling beep on every ten seconds (debug)")
 		floorFunc = filter.FloorToTensOfSeconds
+		tickerDuration = 100 * time.Millisecond
+	} else if whiteRose {
+		log.Println("Enabling beep on every minute (white rose)")
+		floorFunc = filter.FloorToOneMinute
 		tickerDuration = 100 * time.Millisecond
 	} else {
 		log.Println("Enabling beep on every hour")
